@@ -15,4 +15,14 @@ class CommentRepository
         ]);
     }
 
+    public function update(Comment $comment, $data): bool
+    {
+        return $comment->update($data);
+    }
+
+    public function delete(Comment $comment): ?bool
+    {
+        return $comment->delete();
+    }
+
 }

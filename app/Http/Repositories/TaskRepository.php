@@ -20,4 +20,9 @@ class TaskRepository
     {
         return  $task->delete();
     }
+
+    public function getById(int $taskId)
+    {
+        return \App\Models\Task::findOrFail($taskId);
+    }
 }
