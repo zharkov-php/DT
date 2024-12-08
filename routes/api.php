@@ -41,6 +41,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('join', [ProjectController::class, 'joinTeam']);
         Route::delete('{project}', [ProjectController::class, 'destroy']);
         Route::post('{project_id}/restore', [ProjectController::class, 'restore']);
+        Route::get('{project}/tasks', [TaskController::class, 'index']);
+
 
     });
 

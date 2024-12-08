@@ -6,8 +6,10 @@ use App\Http\Repositories\ProjectRepository;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Services\TaskService;
+use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -21,6 +23,13 @@ class TaskController extends Controller
     {
         $this->taskService = $taskService;
         $this->projectRepository = $projectRepository;
+    }
+
+    public function index(Request $request, Project $project): JsonResponse
+    {
+        $tasks = $this->taskService->filterTasks($project, $request);
+
+        return response()->json($tasks);
     }
 
     public function store(StoreTaskRequest $request): JsonResponse
