@@ -36,7 +36,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('projects')->group(function () {
         Route::post('/', [ProjectController::class, 'store']);
-        Route::post('{project}/members', [ProjectController::class, 'addMember']);
         Route::get('{project}/analytics', [AnalyticController::class, 'index']);
     });
 
