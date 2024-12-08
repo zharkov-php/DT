@@ -72,6 +72,15 @@ class ProjectService
         $this->projectInvitationRepository->delete($invitation);
 
         return response()->json(['message' => 'Successfully joined the project'], 200);
+    }
 
+    public function delete(Project $project): void
+    {
+        $this->projectRepository->delete($project);
+    }
+
+    public function restore(Project $project): void
+    {
+        $this->projectRepository->restore($project);
     }
 }

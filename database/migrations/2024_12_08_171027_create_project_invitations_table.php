@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('token')->unique();
             $table->timestamp('expires_at');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

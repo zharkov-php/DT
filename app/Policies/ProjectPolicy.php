@@ -24,4 +24,9 @@ class ProjectPolicy
     {
         return $project->members()->where('user_id', $user->id)->exists();
     }
+
+    public function restore(User $user, Project $project): bool
+    {
+        return $project->owner_id === $user->id;
+    }
 }

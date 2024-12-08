@@ -39,6 +39,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('{project}/analytics', [AnalyticController::class, 'index']);
         Route::post('{project}/invite', [ProjectController::class, 'invite']);
         Route::post('join', [ProjectController::class, 'joinTeam']);
+        Route::delete('{project}', [ProjectController::class, 'destroy']);
+        Route::post('{project_id}/restore', [ProjectController::class, 'restore']);
 
     });
 

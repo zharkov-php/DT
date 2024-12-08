@@ -31,4 +31,13 @@ class ProjectRepository
         return $project->members()->where('user_id', $assignedTo)->first();
     }
 
+    public function delete(Project $project): void
+    {
+        $project->delete();
+    }
+
+    public function restore(Project $project): void
+    {
+        $project->restore();
+    }
 }

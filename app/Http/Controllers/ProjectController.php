@@ -54,4 +54,27 @@ class ProjectController extends Controller
 
         return $this->projectService->joinTeam($validated, auth()->user()->id);
     }
+
+    public function destroy(Project $project): JsonResponse
+    {
+        $this->authorize('delete', $project);
+
+        $this->projectService->delete($project);
+
+        return response()->json(['message' => 'Project soft deleted successfully'], 200);
+    }
+
+    public function restore(int $projectId): JsonResponse
+    {
+
+        $project = Project::onlyTrashed()->where('id', $projectId)->firstOrFail();
+        $this->authorize('restore', $project);
+
+        if ($project) {
+            $this->projectService->restore($project);
+        }
+
+
+        return response()->json(['message' => 'Project restored successfully'], 200);
+    }
 }
