@@ -37,6 +37,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('projects')->group(function () {
         Route::post('/', [ProjectController::class, 'store']);
         Route::get('{project}/analytics', [AnalyticController::class, 'index']);
+        Route::post('{project}/invite', [ProjectController::class, 'invite']);
+        Route::post('join', [ProjectController::class, 'joinTeam']);
+
     });
 
     Route::prefix('tasks')->group(function () {
@@ -47,6 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('comments')->group(function () {
         Route::post('/', [CommentController::class, 'store']);
+
     });
 });
 

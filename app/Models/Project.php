@@ -32,4 +32,9 @@ class Project extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function invitations(): HasMany
+    {
+        return $this->hasMany(ProjectInvitation::class);
+    }
 }
