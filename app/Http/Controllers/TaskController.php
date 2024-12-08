@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repositories\ProjectRepository;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Services\TaskService;
@@ -11,17 +12,25 @@ use Illuminate\Http\JsonResponse;
 class TaskController extends Controller
 {
     private TaskService $taskService;
+    private ProjectRepository $projectRepository;
 
-    public function __construct(TaskService $taskService)
+    public function __construct(
+        TaskService $taskService,
+        ProjectRepository $projectRepository,
+    )
     {
         $this->taskService = $taskService;
+        $this->projectRepository = $projectRepository;
     }
 
     public function store(StoreTaskRequest $request): JsonResponse
     {
         $validated = $request->validated();
 
-        $task = $this->taskService->create($validated);
+        $project = $this->projectRepository->getByProjectId($validated['project_id']);
+        $this->authorize('create', new Task(['project_id' => $project->id]));
+
+        $task = $this->taskService->create($validated, $project);
 
         return response()->json($task, 201);
     }
@@ -29,9 +38,9 @@ class TaskController extends Controller
 
     public function update(UpdateTaskRequest $request, Task $task): JsonResponse
     {
-        $this->authorize('update', $task->project);
-
         $validated = $request->validated();
+        $this->authorize('update', $task);
+
         $updateTask = $this->taskService->update($task, $validated);
 
         return response()->json($updateTask);
@@ -39,10 +48,11 @@ class TaskController extends Controller
 
     public function destroy(Task $task): JsonResponse
     {
-        $this->authorize('delete', $task);
+        $project = $task->project;
+        $this->authorize('delete', $project);
 
         $this->taskService->delete($task);
 
-        return response()->json(['message' => 'Task deleted'], 200);
+        return response()->json(['message' => 'Task deleted successfully'], 200);
     }
 }

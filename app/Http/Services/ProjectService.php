@@ -6,6 +6,7 @@ use App\Http\Repositories\ProjectInvitationRepository;
 use App\Http\Repositories\ProjectMemberRepository;
 use App\Http\Repositories\ProjectRepository;
 use App\Models\Project;
+use App\Models\ProjectMember;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
@@ -32,9 +33,17 @@ class ProjectService
         string|null $description,
         int $ownerId,
     ) {
-        return $this->projectRepository->create(
+
+        $project = $this->projectRepository->create(
             $name, $description, $ownerId
         );
+        ProjectMember::create([
+            'project_id' => $project->id,
+            'user_id' => $ownerId,
+            'role' => 'Owner',
+        ]);
+
+        return $project;
     }
 
     public function createInvite(Project $project, array $data): Model

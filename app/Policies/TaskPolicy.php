@@ -4,10 +4,22 @@ namespace App\Policies;
 
 use App\Models\Task;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class TaskPolicy
 {
+    public function create(User $user, Task $task): bool
+    {
+        $project = $task->project;
+
+        if ($project->owner_id === $user->id) {
+            return true;
+        }
+
+        $member = $project->members()->where('user_id', $user->id)->first();
+
+        return $member && in_array($member->role, ['Owner', 'Editor']);
+    }
+
     public function delete(User $user, Task $task): bool
     {
         return $task->project->owner_id === $user->id;
@@ -15,7 +27,13 @@ class TaskPolicy
 
     public function update(User $user, Task $task): bool
     {
-        $member = $task->project->members()->where('user_id', $user->id)->first();
+        $project = $task->project;
+
+        if ($project->owner_id === $user->id) {
+            return true;
+        }
+
+        $member = $project->members()->where('user_id', $user->id)->first();
 
         return $member && in_array($member->role, ['Owner', 'Editor']);
     }

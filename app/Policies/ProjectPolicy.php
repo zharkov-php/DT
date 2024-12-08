@@ -10,11 +10,13 @@ class ProjectPolicy
 {
     public function update(User $user, Project $project): bool
     {
-        return $project->owner_id === $user->id;
+        $member = $project->members()->where('user_id', $user->id)->first();
+
+        return $member && in_array($member->role, ['Owner', 'Editor']);
     }
 
-    public function view(User $user, Project $project): bool
+    public function delete(User $user, Project $project): bool
     {
-        return $project->members()->where('user_id', $user->id)->exists();
+        return $project->owner_id === $user->id;
     }
 }
