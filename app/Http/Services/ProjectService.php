@@ -49,6 +49,7 @@ class ProjectService
             'email' => $data['email'],
             'token' => $token,
             'expires_at' => now()->addDay(),
+            'invited_role' => $data['invited_role']
         ]);
     }
 
@@ -66,8 +67,7 @@ class ProjectService
         if ($existingMember) {
             return response()->json(['message' => 'You are already a member of this project'], 400);
         }
-
-        $this->projectMemberRepository->create($invitation->project_id, $authId);
+        $this->projectMemberRepository->create($invitation->project_id, $authId, $invitation->invited_role);
 
         $this->projectInvitationRepository->delete($invitation);
 

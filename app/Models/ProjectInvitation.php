@@ -17,6 +17,7 @@ class ProjectInvitation extends Model
         'email',
         'token',
         'expires_at',
+        'invited_role',
     ];
 
     public function project(): BelongsTo

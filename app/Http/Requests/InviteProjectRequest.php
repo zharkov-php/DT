@@ -24,6 +24,7 @@ class InviteProjectRequest extends FormRequest
     {
         return [
             'email' => 'required|email|unique:users,email',
+            'invited_role' => 'required|in:Viewer,Editor,Owner',
         ];
     }
 }

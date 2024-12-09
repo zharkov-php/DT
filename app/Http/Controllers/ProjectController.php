@@ -33,7 +33,7 @@ class ProjectController extends Controller
 
     public function invite(InviteProjectRequest $request, Project $project): JsonResponse
     {
-        $this->authorize('update', $project);
+        $this->authorize('invite', $project);
 
         $validated = $request->validated();
 

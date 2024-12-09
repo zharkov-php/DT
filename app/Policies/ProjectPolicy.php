@@ -29,4 +29,9 @@ class ProjectPolicy
     {
         return $project->owner_id === $user->id;
     }
+
+    public function invite(User $user, Project $project): bool
+    {
+        return $project->owner_id === $user->id;
+    }
 }

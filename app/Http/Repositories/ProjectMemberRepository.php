@@ -13,12 +13,12 @@ class ProjectMemberRepository
             ->exists();
     }
 
-    public function create(int $projectId, int $authId)
+    public function create(int $projectId, int $authId, string $invitedRole)
     {
         return ProjectMember::create([
             'project_id' => $projectId,
             'user_id' => $authId,
-            'role' => 'Viewer',
+            'role' => $invitedRole,
         ]);
     }
 
