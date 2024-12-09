@@ -37,7 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('projects')->group(function () {
         Route::post('/', [ProjectController::class, 'store']);
         Route::get('{project}/analytics', [AnalyticController::class, 'index']);
-        Route::post('{project}/invite', [ProjectController::class, 'invite']);
+        Route::post('{project}/invite', [ProjectController::class, 'invite'])->name('projects.invite');
         Route::post('join', [ProjectController::class, 'joinTeam']);
         Route::delete('{project}', [ProjectController::class, 'destroy']);
         Route::post('{project_id}/restore', [ProjectController::class, 'restore']);
