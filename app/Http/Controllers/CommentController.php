@@ -17,8 +17,7 @@ class CommentController extends Controller
     public function __construct(
         CommentService $commentService,
         TaskRepository $taskRepository,
-    )
-    {
+    ) {
         $this->commentService = $commentService;
         $this->taskRepository = $taskRepository;
     }
@@ -28,13 +27,7 @@ class CommentController extends Controller
         $validated = $request->validated();
 
         $task = $this->taskRepository->getById($validated['task_id']);
-        $project = $task->project;
-
-        $member = $project->members()->where('user_id', auth()->id())->first();
-        if (!$member) {
-            return response()->json(['message' => 'You are not a member of this project'], 403);
-        }
-
+        $this->authorize('create', new Comment(['task_id' => $task->id]));
         $comment = $this->commentService->create($validated, auth()->user()->id);
 
         return response()->json($comment, 201);

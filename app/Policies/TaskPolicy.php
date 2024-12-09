@@ -17,7 +17,7 @@ class TaskPolicy
 
         $member = $project->members()->where('user_id', $user->id)->first();
 
-        return $member && in_array($member->role, ['Owner', 'Editor']);
+        return $member && $member->pivot->role === 'Editor';
     }
 
     public function delete(User $user, Task $task): bool
@@ -35,6 +35,7 @@ class TaskPolicy
 
         $member = $project->members()->where('user_id', $user->id)->first();
 
-        return $member && in_array($member->role, ['Owner', 'Editor']);
+        return $member && $member->pivot->role === 'Editor';
     }
+
 }
