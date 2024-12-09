@@ -19,8 +19,7 @@ class TaskController extends Controller
     public function __construct(
         TaskService $taskService,
         ProjectRepository $projectRepository,
-    )
-    {
+    ) {
         $this->taskService = $taskService;
         $this->projectRepository = $projectRepository;
     }
@@ -45,14 +44,15 @@ class TaskController extends Controller
     }
 
 
-    public function update(UpdateTaskRequest $request, Task $task): JsonResponse
+    public function update(UpdateTaskRequest $request, Task $task)
     {
         $validated = $request->validated();
         $this->authorize('update', $task);
 
         $updateTask = $this->taskService->update($task, $validated);
-
-        return response()->json($updateTask);
+        if ($updateTask) {
+            return response()->json(['message' => 'Updated Task successfully']);
+        }
     }
 
     public function destroy(Task $task): JsonResponse

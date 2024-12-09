@@ -13,7 +13,8 @@ class TaskRepository
 
     public function update(Task $task, array $data): bool
     {
-        return  $task->update($data);
+        return $task->update($data);
+
     }
 
     public function delete(Task $task): ?bool
