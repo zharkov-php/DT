@@ -41,7 +41,7 @@ class TaskService
     {
         if (isset($data['assigned_to'])) {
 
-            $assignedMember = $task->project->members()->where('user_id', $data['assigned_to'])->first();
+            $assignedMember = $task->project->users()->where('user_id', $data['assigned_to'])->first();
 
             if (!$assignedMember || $assignedMember->role === 'Viewer') {
                 return response()->json(['message' => 'Cannot assign task to a Viewer'], 400);

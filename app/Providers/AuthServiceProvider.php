@@ -19,7 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        Project::class => ProjectPolicy::class,
+       // Project::class => ProjectPolicy::class,
         Task::class => TaskPolicy::class,
         Comment::class => CommentPolicy::class,
     ];

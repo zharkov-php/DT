@@ -24,13 +24,6 @@ class Project extends Model
         return $this->belongsTo(User::class, 'owner_id');
     }
 
-    public function members(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'project_members', 'project_id', 'user_id')
-            ->withPivot('role') // Додаткове поле ролі
-            ->withTimestamps();
-    }
-
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class);
@@ -39,5 +32,12 @@ class Project extends Model
     public function invitations(): HasMany
     {
         return $this->hasMany(ProjectInvitation::class);
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'project_user_roles')
+            ->withPivot('role_id')
+            ->withTimestamps();
     }
 }

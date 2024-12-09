@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -58,5 +59,32 @@ class User extends Authenticatable
     public function tasksAssigned(): HasMany
     {
         return $this->hasMany(Task::class, 'assigned_to');
+    }
+
+//    public function roles()
+//    {
+//        return $this->morphToMany(Role::class, 'model', 'model_has_roles');
+//    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'project_user_roles')
+            ->withPivot('project_id')
+            ->withTimestamps();
+    }
+
+    public function projects(): BelongsToMany
+    {
+        return $this->belongsToMany(Project::class, 'project_user_roles')
+            ->withPivot('role_id')
+            ->withTimestamps();
+    }
+
+    public function hasProjectRole(int $projectId, string $roleName): bool
+    {
+        return $this->roles()
+            ->wherePivot('project_id', $projectId)
+            ->where('name', $roleName)
+            ->exists();
     }
 }

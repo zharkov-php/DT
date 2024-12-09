@@ -23,7 +23,7 @@ class InviteProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|exists:users,email',
             'invited_role' => 'required|in:Viewer,Editor,Owner',
         ];
     }

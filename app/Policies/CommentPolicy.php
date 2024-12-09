@@ -11,24 +11,8 @@ class CommentPolicy
 {
     public function create(User $user, Comment $comment): bool
     {
-        $task = $comment->task ?? Task::with('project.members')->find($comment->task_id);
+        return $user->hasProjectRole($comment->task->project->id, 'Owner') || $user->hasProjectRole($comment->task->project->id, 'Editor');
 
-        if (!$task) {
-            return false;
-        }
-
-        $project = $task->project;
-
-        if (!$project) {
-            return false;
-        }
-
-        if ($project->owner_id === $user->id) {
-            return true;
-        }
-
-        $member = $project->members->firstWhere('id', $user->id);
-        return $member !== null;
     }
 
     public function update(User $user, Comment $comment): bool

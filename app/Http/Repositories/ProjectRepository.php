@@ -12,8 +12,7 @@ class ProjectRepository
         string $name,
         string|null $description,
         int $ownerId,
-    )
-    {
+    ) {
         return Project::create([
             'name' => $name,
             'description' => $description ?? null,
@@ -28,7 +27,7 @@ class ProjectRepository
 
     public function getByUserIdAssignedTo(Project $project, int $assignedTo): Model|HasMany|null
     {
-        return $project->members()->where('user_id', $assignedTo)->first();
+        return $project->users()->where('user_id', $assignedTo)->first();
     }
 
     public function delete(Project $project): void

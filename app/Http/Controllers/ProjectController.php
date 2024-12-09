@@ -33,8 +33,6 @@ class ProjectController extends Controller
 
     public function invite(InviteProjectRequest $request, Project $project): JsonResponse
     {
-        $this->authorize('invite', $project);
-
         $validated = $request->validated();
 
         $invitation = $this->projectService->createInvite($project, $validated);
@@ -52,28 +50,19 @@ class ProjectController extends Controller
     {
         $validated = $request->validated();
 
-        return $this->projectService->joinTeam($validated, auth()->user()->id);
+        return $this->projectService->joinTeam($validated, auth()->user());
     }
 
     public function destroy(Project $project): JsonResponse
     {
-        $this->authorize('delete', $project);
-
         $this->projectService->delete($project);
 
         return response()->json(['message' => 'Project soft deleted successfully'], 200);
     }
 
-    public function restore(int $projectId): JsonResponse
+    public function restore(Project $project): JsonResponse
     {
-
-        $project = Project::onlyTrashed()->where('id', $projectId)->firstOrFail();
-        $this->authorize('restore', $project);
-
-        if ($project) {
-            $this->projectService->restore($project);
-        }
-
+        $this->projectService->restore($project);
 
         return response()->json(['message' => 'Project restored successfully'], 200);
     }

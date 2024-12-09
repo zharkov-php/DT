@@ -34,10 +34,8 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request): JsonResponse
     {
         $validated = $request->validated();
-
         $project = $this->projectRepository->getByProjectId($validated['project_id']);
-        $this->authorize('create', new Task(['project_id' => $project->id]));
-
+        $this->authorize('create', [Task::class, $project]);
         $task = $this->taskService->create($validated, $project);
 
         return response()->json($task, 201);
@@ -47,8 +45,6 @@ class TaskController extends Controller
     public function update(UpdateTaskRequest $request, Task $task)
     {
         $validated = $request->validated();
-        $this->authorize('update', $task);
-
         $updateTask = $this->taskService->update($task, $validated);
         if ($updateTask) {
             return response()->json(['message' => 'Updated Task successfully']);
@@ -57,9 +53,6 @@ class TaskController extends Controller
 
     public function destroy(Task $task): JsonResponse
     {
-        $project = $task->project;
-        $this->authorize('delete', $project);
-
         $this->taskService->delete($task);
 
         return response()->json(['message' => 'Task deleted successfully'], 200);

@@ -36,27 +36,24 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('projects')->group(function () {
         Route::post('/', [ProjectController::class, 'store']);
-        Route::get('{project}/analytics', [AnalyticController::class, 'index']);
-        Route::post('{project}/invite', [ProjectController::class, 'invite'])->name('projects.invite');
+        Route::get('{project}/analytics', [AnalyticController::class, 'index'])->middleware(['auth', 'check.project.role:Owner|Editor']);
+        Route::post('{project}/invite', [ProjectController::class, 'invite'])->middleware(['auth', 'check.project.role:Owner']);
         Route::post('join', [ProjectController::class, 'joinTeam']);
-        Route::delete('{project}', [ProjectController::class, 'destroy']);
-        Route::post('{project_id}/restore', [ProjectController::class, 'restore']);
-        Route::get('{project}/tasks', [TaskController::class, 'index']);
-
-
+        Route::delete('{project}', [ProjectController::class, 'destroy'])->middleware(['auth', 'check.project.role:Owner']);
+        Route::post('{project}/restore', [ProjectController::class, 'restore'])->withTrashed()->middleware(['auth', 'check.project.role:Owner']);
+        Route::get('{project}/tasks', [TaskController::class, 'index'])->middleware(['auth', 'check.project.role:Owner|Editor|Viewer']);
     });
 
     Route::prefix('tasks')->group(function () {
-        Route::post('/', [TaskController::class, 'store']);
-        Route::put('{task}', [TaskController::class, 'update']);
-        Route::delete('{task}', [TaskController::class, 'destroy']);
+        Route::post('/', [TaskController::class, 'store']);//check policy role
+        Route::put('{task}', [TaskController::class, 'update'])->middleware('check.task.role:Owner|Editor');
+        Route::delete('{task}', [TaskController::class, 'destroy'])->middleware('check.task.role:Owner');
     });
 
     Route::prefix('comments')->group(function () {
-        Route::post('/', [CommentController::class, 'store']);
-        Route::put('{comment}', [CommentController::class, 'update']);
-        Route::delete('{comment}', [CommentController::class, 'destroy']);
-
+        Route::post('/', [CommentController::class, 'store']);//check policy role
+        Route::put('{comment}', [CommentController::class, 'update'])->middleware('check.comment.role:Owner|Editor');
+        Route::delete('{comment}', [CommentController::class, 'destroy'])->middleware('check.comment.role:Owner');
     });
 });
 
