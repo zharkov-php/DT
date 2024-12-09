@@ -2,8 +2,20 @@
 
 namespace App\Http\Services;
 
+use App\Models\Project;
+use Illuminate\Support\Facades\Cache;
+
 class AnalyticService
 {
+    public function getTaskAnalytics(Project $project): array
+    {
+        $cacheKey = $this->generateCacheKey($project);
+
+        return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($project) {
+            return $this->calculateTaskAnalytics($project->tasks->toArray());
+        });
+    }
+
     public function calculateTaskAnalytics(array $tasks): array
     {
         $statusSummary = [
@@ -51,5 +63,18 @@ class AnalyticService
             'priority_summary' => $prioritySummary,
             'member_task_summary' => $memberTaskSummaryFormatted,
         ];
+    }
+
+
+    public function clearCache(Project $project): void
+    {
+        $cacheKey = $this->generateCacheKey($project);
+        Cache::forget($cacheKey);
+    }
+
+
+    private function generateCacheKey(Project $project): string
+    {
+        return "project_analytics_{$project->id}";
     }
 }

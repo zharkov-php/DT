@@ -20,9 +20,9 @@ class AnalyticController extends Controller
     {
         $this->authorize('view', $project);
 
-        $tasks = $project->tasks->toArray();
 
-        $analytics = $this->analyticService->calculateTaskAnalytics($tasks);
+
+        $analytics = $this->analyticService->getTaskAnalytics($project);
 
         return response()->json($analytics);
     }
