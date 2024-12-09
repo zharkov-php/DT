@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\Project;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Task>
+ * @extends Factory<Task>
  */
 class TaskFactory extends Factory
 {
@@ -22,8 +23,8 @@ class TaskFactory extends Factory
             'project_id' => Project::factory(),
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
-            'status' => 'todo',
-            'priority' => 'medium',
+            'status' => $this->faker->randomElement(['todo', 'in_progress', 'done']),
+            'priority' => $this->faker->randomElement(['low', 'medium', 'high']),
             'assigned_to' => User::factory(),
         ];
     }
