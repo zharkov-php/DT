@@ -70,7 +70,7 @@ jobs:
 
       - name: Set permissions for .git directory
         run: |
-          sudo chown -R ubuntu:ubuntu /var/www/laravel/.git
+          sudo chown -R www-data:www-data /var/www/laravel/.git
           sudo chmod -R 775 /var/www/laravel/.git
 
       - name: Fix MySQL root access
