@@ -78,10 +78,11 @@ jobs:
 #          sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';"
 #          sudo mysql -e "FLUSH PRIVILEGES;"
 
-      - name: Verify Git access
-        run: |
-          cd /var/www/laravel
-          git status
+#      - name: Verify Git access
+#        run: |
+#          cd /var/www/laravel
+#          git status
+
       # Sync code to server
       - name: Deploy using SSH
         uses: appleboy/ssh-action@v0.1.10
