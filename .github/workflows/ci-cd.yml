@@ -64,8 +64,6 @@ jobs:
 
       - name: Set permissions for Laravel directories
         run: |
-          sudo chown -R www-data:www-data /var/www/laravel
-          sudo chmod -R 775 /var/www/laravel
           sudo mkdir -p /var/www/laravel/storage /var/www/laravel/bootstrap/cache
           sudo chown -R www-data:www-data /var/www/laravel/storage /var/www/laravel/bootstrap/cache
           sudo chmod -R 775 /var/www/laravel/storage /var/www/laravel/bootstrap/cache
@@ -95,6 +93,8 @@ jobs:
           port: 22
           script: |
             cd /var/www/laravel
+                sudo chown -R www-data:www-data /var/www/laravel
+                sudo chmod -R 775 /var/www/laravel
                 git config --global --add safe.directory /var/www/laravel
                 git fetch origin gitlabCICD
                 git reset --hard origin/gitlabCICD
