@@ -73,10 +73,10 @@ jobs:
 #          sudo chown -R $USER:www-data /var/www/laravel/.git
 #          sudo chmod -R 775 /var/www/laravel/.git
 
-      - name: Fix MySQL root access
-        run: |
-          sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';"
-          sudo mysql -e "FLUSH PRIVILEGES;"
+#      - name: Fix MySQL root access
+#        run: |
+#          sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';"
+#          sudo mysql -e "FLUSH PRIVILEGES;"
 
       - name: Verify Git access
         run: |
