@@ -93,11 +93,9 @@ jobs:
           port: 22
           script: |
             cd /var/www/laravel
-                sudo chown -R www-data:www-data /var/www/laravel
-                sudo chmod -R 775 /var/www/laravel
-                git config --global --add safe.directory /var/www/laravel
-                git fetch origin gitlabCICD
-                git reset --hard origin/gitlabCICD
+                sudo git config --global --add safe.directory /var/www/laravel
+                sudo git fetch origin gitlabCICD
+                sudo git reset --hard origin/gitlabCICD
                 composer install --no-dev --optimize-autoloader
                 php artisan migrate --force
                 sudo mkdir -p /var/www/laravel/storage /var/www/laravel/bootstrap/cache
