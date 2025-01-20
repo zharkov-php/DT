@@ -68,10 +68,10 @@ jobs:
           sudo chown -R www-data:www-data /var/www/laravel/storage /var/www/laravel/bootstrap/cache
           sudo chmod -R 775 /var/www/laravel/storage /var/www/laravel/bootstrap/cache
 
-      - name: Set permissions for .git directory
-        run: |
-          sudo chown -R $USER:www-data /var/www/laravel/.git
-          sudo chmod -R 775 /var/www/laravel/.git
+#      - name: Set permissions for .git directory
+#        run: |
+#          sudo chown -R $USER:www-data /var/www/laravel/.git
+#          sudo chmod -R 775 /var/www/laravel/.git
 
       - name: Fix MySQL root access
         run: |
