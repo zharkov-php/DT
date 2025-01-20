@@ -92,20 +92,20 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cd /var/www/laravel
-#                sudo git config --global --add safe.directory .
-                sudo git fetch origin gitlabCICD
-                sudo git reset --hard origin/gitlabCICD
-                composer install --no-dev --optimize-autoloader
-                php artisan migrate --force
-#                sudo mkdir -p /var/www/laravel/storage /var/www/laravel/bootstrap/cache
-#                sudo chown -R www-data:www-data /var/www/laravel
-#                sudo chmod -R 775 /var/www/laravel/storage /var/www/laravel/bootstrap/cache
-                php artisan cache:clear
-                php artisan config:cache
-                php artisan route:cache
-                php artisan view:cache
-                sudo systemctl restart php8.4-fpm
-                sudo systemctl restart nginx
+                    cd /var/www/laravel
+            #                sudo git config --global --add safe.directory .
+                    sudo git fetch origin gitlabCICD
+                    sudo git reset --hard origin/gitlabCICD
+                    composer install --no-dev --optimize-autoloader
+                    php artisan migrate --force
+            #                sudo mkdir -p /var/www/laravel/storage /var/www/laravel/bootstrap/cache
+            #                sudo chown -R www-data:www-data /var/www/laravel
+            #                sudo chmod -R 775 /var/www/laravel/storage /var/www/laravel/bootstrap/cache
+                    php artisan cache:clear
+                    php artisan config:cache
+                    php artisan route:cache
+                    php artisan view:cache
+                    sudo systemctl restart php8.4-fpm
+                    sudo systemctl restart nginx
 
 
