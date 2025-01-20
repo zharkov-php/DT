@@ -93,7 +93,7 @@ jobs:
           port: 22
           script: |
             cd /var/www/laravel
-                sudo git config --global --add safe.directory /var/www/laravel
+                sudo git config --global --add safe.directory .
                 sudo git fetch origin gitlabCICD
                 sudo git reset --hard origin/gitlabCICD
                 composer install --no-dev --optimize-autoloader
